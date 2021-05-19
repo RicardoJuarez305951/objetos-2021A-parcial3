@@ -6,33 +6,36 @@ import java.util.*;
 public class Group {
     private LinkedList<Student> students;
     private int capacity;
+    private int availability;
     private double average;
 
     public Group(int capacity) {
         this.capacity = capacity;
-        students = new LinkedList<Student>();
+        this.availability = capacity;
+        students = new LinkedList<>();
     }
 
     public int getCapacity() {
         return capacity;
     }
 
-    public void addStudent(Student student){
-        students.add(student);
+    public int getAvailability() {
+        return availability;
     }
 
-    public boolean getAvailability() {
-        if(capacity >= students.size())
-            return false;
-        else
-            return true;
-    }
-
-    public double getAverage() {
-        double aux = 0;
-        for(int i = 0;i < students.size(); i++){
-            aux += students.get(i).getAverage();
+    public void addStudent(Student student) {
+        if(availability <= 0){
+            throw new GroupIsFullException();
         }
+        students.add(student);
+        availability--;
+    }
+
+        public double getAverage() {
+        double aux = 0;
+            for (Student student : students) {
+                aux += student.getAverage();
+            }
 
         return aux / students.size();
     }
